@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
@@ -19,11 +20,7 @@ const Note = mongoose.model('Note', { content: String, createdAt: { type: Date, 
 app.get('/health', (req, res) => res.status(200).json({ status: "ok" }));
 
 app.get('/about', (req, res) => {
-    res.json({
-        fullName: "NGÔ ANH TÚ",
-        studentID: "2251220045",
-        class: "22CT1"
-    });
+    res.sendFile(path.join(__dirname, 'about.html'));
 });
 
 app.get('/api/notes', async (req, res) => {
