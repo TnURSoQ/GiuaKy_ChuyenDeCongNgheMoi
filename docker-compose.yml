@@ -1,0 +1,30 @@
+services:
+  # Database container riêng 
+  mongodb_container:
+    image: mongo:latest
+    container_name: note_db_container
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./backend
+    container_name: note_backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    depends_on:
+      - mongodb_container
+
+  frontend:
+    build: ./frontend
+    container_name: note_frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
